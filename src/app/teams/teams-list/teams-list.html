@@ -1,0 +1,84 @@
+<mat-card class="container">
+  <mat-card-header>
+    <mat-card-title>רשימת צוותים</mat-card-title>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="goToCreateTeam()">
+        <mat-icon>add</mat-icon>
+        {{ router.url.includes('/teams/create-team') ? 'ביטול / סגור' : 'הוסף קבוצה חדשה' }}
+      </button>
+    </mat-card-actions>
+  </mat-card-header>
+  <mat-card-content>
+    <router-outlet></router-outlet>
+
+    @if (errorMessage) {
+      <mat-card class="error-card">
+        <mat-card-content>
+          <p class="error-text">{{ errorMessage }}</p>
+        </mat-card-content>
+      </mat-card>
+    } @else {
+      <div class="teams-grid">
+        @for (team of teamsList(); track team.id) {
+          <mat-card class="team-card">
+            <mat-card-header>
+              <mat-card-title>{{ team.name }}</mat-card-title>
+              <mat-card-subtitle>
+                <mat-chip color="primary">{{ team.members_count }} חברים</mat-chip>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>מזהה צוות: {{ team.id }}</p>
+              <p>נוצר ב: {{ team.created_at | date:'dd/MM/yyyy' }}</p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+              <button mat-stroked-button color="primary" (click)="viewTeamDetails(team.id)">
+                <mat-icon>visibility</mat-icon>
+                צפה בפרטים
+              </button>
+              <button mat-stroked-button color="accent" (click)="toggleAddMemberInput(team.id)">
+                <mat-icon>person_add</mat-icon>
+                הוסף חבר
+              </button>
+            </mat-card-actions>
+            
+            @if (showAddMemberInput()[team.id]) {
+              <div class="add-member-form">
+                @if (addMemberErrors()[team.id]) {
+                  <div class="error-message">{{ addMemberErrors()[team.id] }}</div>
+                }
+                <div class="add-member-input-group">
+                  <input 
+                    type="number" 
+                    placeholder="מזהה משתמש" 
+                    [(ngModel)]="userIdInputs()[team.id]"
+                    (input)="updateUserIdInput(team.id, $event.target.value)"
+                    [disabled]="submitting()[team.id]"
+                    class="user-id-input"
+                  />
+                  <button 
+                    (click)="addMember(team.id)"
+                    [disabled]="submitting()[team.id] || !userIdInputs()[team.id]"
+                    class="add-button"
+                  >
+                    @if (submitting()[team.id]) {
+                      מוסיף...
+                    } @else {
+                      הוסף
+                    }
+                  </button>
+                </div>
+              </div>
+            }
+          </mat-card>
+        } @empty {
+          <mat-card>
+            <mat-card-content>
+              <p>אין צוותים זמינים כרגע.</p>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    }
+  </mat-card-content>
+</mat-card>

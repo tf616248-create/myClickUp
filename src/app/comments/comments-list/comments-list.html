@@ -1,0 +1,61 @@
+<div class="comments-container">
+  <div class="comments-list" [class.loading]="isLoading()">
+    
+    @if (isLoading()) {
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Loading comments...</p>
+      </div>
+    }
+
+    @if (error()) {
+      <div class="error-state">
+        <p>{{ error() }}. Please try again.</p>
+        <button (click)="refreshComments()" class="retry-btn">Retry</button>
+      </div>
+    }
+
+    @if (!isLoading() && !error() && comments().length === 0) {
+      <div class="empty-state">
+        <p>No comments yet. Be the first to comment!</p>
+      </div>
+    }
+
+    @for (comment of comments(); track comment.id) {
+      <div class="comment-bubble" [class.my-comment]="isMyComment(comment)" [class.optimistic]="comment.id > 1000000000000">
+        <div class="comment-header">
+          <span class="author-name">{{ comment.author_name }}</span>
+          <span class="timestamp">{{ comment.created_at | date:'short' }}</span>
+        </div>
+        <div class="comment-body">{{ comment.body }}</div>
+      </div>
+    }
+  </div>
+
+  <div class="comment-input-container">
+    <form (ngSubmit)="addComment()" class="comment-form">
+      <textarea
+        [(ngModel)]="newComment"
+        name="newComment"
+        placeholder="Type your comment..."
+        class="comment-input"
+        rows="1"
+        (keydown)="onKeydown($event)"
+        [disabled]="isSubmitting()"
+      ></textarea>
+      <button 
+        type="submit" 
+        class="send-button"
+        [disabled]="!newComment().trim() || isSubmitting()"
+      >
+        @if (isSubmitting()) {
+          <div class="sending-spinner"></div>
+        } @else {
+          <svg class="send-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        }
+      </button>
+    </form>
+  </div>
+</div>

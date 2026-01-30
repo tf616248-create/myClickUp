@@ -1,0 +1,150 @@
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.task-wrapper {
+  transition: all 0.3s ease;
+  
+  &.task-highlight {
+    animation: highlightPulse 2s ease-in-out;
+  }
+}
+
+.task-item {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &.edit-mode {
+    border: 2px solid #3f51b5;
+    box-shadow: 0 4px 16px rgba(63, 81, 181, 0.2);
+  }
+}
+
+.comments-section {
+  margin-top: 16px;
+  animation: slideDown 0.3s ease-out;
+  
+  // Ensure the comments component integrates smoothly
+  app-comments-list {
+    display: block;
+    margin-top: 8px;
+  }
+}
+
+// Active state for comments button
+.mat-mdc-icon-button.active {
+  background-color: rgba(63, 81, 181, 0.12);
+  color: #3f51b5;
+  
+  &:hover {
+    background-color: rgba(63, 81, 181, 0.2);
+  }
+}
+
+// Task highlight animation
+@keyframes highlightPulse {
+  0% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+  20% {
+    background-color: rgba(63, 81, 181, 0.1);
+    transform: scale(1.02);
+  }
+  40% {
+    background-color: rgba(63, 81, 181, 0.2);
+    transform: scale(1.01);
+  }
+  80% {
+    background-color: rgba(63, 81, 181, 0.1);
+    transform: scale(1.005);
+  }
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+// Comments section slide animation
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+    transform: translateY(0);
+  }
+}
+
+// Priority chip colors
+.bg-high {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+.bg-normal {
+  background-color: #2196f3 !important;
+  color: white !important;
+}
+
+.bg-low {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+// Create task section
+.create-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+
+  h3 {
+    margin: 0;
+    flex: 1;
+  }
+
+  button[mat-fab] {
+    margin-left: auto;
+  }
+}
+
+// Form styling
+.full-width {
+  width: 100%;
+}
+
+// Empty state
+.empty-msg {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 24px;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .task-list {
+    gap: 12px;
+  }
+  
+  .task-item {
+    margin: 0 8px;
+  }
+  
+  .comments-section {
+    margin: 12px 8px;
+  }
+}

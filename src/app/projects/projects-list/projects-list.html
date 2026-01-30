@@ -1,0 +1,56 @@
+<div class="p-4">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">רשימת פרויקטים</h1>
+    <button mat-raised-button color="primary" (click)="toggleCreateProject()">
+      <mat-icon>add</mat-icon>
+      {{ isCreateFormOpen ? 'ביטול' : 'הוסף פרויקט חדש' }}
+    </button>
+  </div>
+
+  <router-outlet></router-outlet>
+
+  @if (serviceProjects.projects().length > 0 && !isCreateFormOpen) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      @for (project of serviceProjects.projects(); track project.id) {
+        <mat-card class="h-full flex flex-col">
+          <mat-card-header>
+            <mat-card-title class="flex justify-between items-center w-full">
+              <span>{{ project.name }}</span>
+              <mat-chip [ngClass]="{
+                'bg-green-100 text-green-800': project.status === 'active',
+                'bg-gray-100 text-gray-800': project.status === 'on-hold',
+                'bg-blue-100 text-blue-800': project.status === 'completed'
+              }">
+                {{ project.status === 'active' ? 'פעיל' : project.status === 'completed' ? 'הושלם' : 'בהמתנה' }}
+              </mat-chip>
+            </mat-card-title>
+            <mat-card-subtitle>
+              מזהה: {{ project.id }} | צוות: {{ project.team_id }}
+            </mat-card-subtitle>
+          </mat-card-header>
+          
+          <mat-card-content class="flex-grow">
+            <p class="mb-2">{{ project.description || 'אין תיאור' }}</p>
+            <p class="text-sm text-gray-500">נוצר ב: {{ project.created_at | date:'dd/MM/yyyy' }}</p>
+          </mat-card-content>
+          
+          <mat-card-actions align="end">
+            <button mat-button color="primary" [routerLink]="['/tasks']" [queryParams]="{ projectId: project.id }">
+              <mat-icon>visibility</mat-icon>
+              צפה בפרטים
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  } @else if (!isCreateFormOpen) {
+    <div class="text-center py-12">
+      <mat-icon class="text-6xl text-gray-400 mb-4">folder_open</mat-icon>
+      <h3 class="text-xl font-medium text-gray-600 mb-4">אין פרויקטים זמינים כרגע</h3>
+      <button mat-raised-button color="primary" (click)="toggleCreateProject()">
+        <mat-icon>add</mat-icon>
+        הוסף פרויקט ראשון
+      </button>
+    </div>
+  }
+</div>

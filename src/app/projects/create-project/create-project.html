@@ -1,0 +1,35 @@
+<mat-card class="create-project-container">
+  <mat-card-header>
+    <mat-card-title>יצירת פרויקט חדש</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="projectForm" (ngSubmit)="onCreateProject()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>מזהה צוות (ID)</mat-label>
+        <input matInput type="number" formControlName="teamId" placeholder="הזן את מספר הצוות">
+        <mat-error *ngIf="projectForm.get('teamId')?.invalid && projectForm.get('teamId')?.touched">
+          חובה להזין מזהה צוות תקין
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>שם הפרויקט</mat-label>
+        <input matInput formControlName="name" placeholder="הזן שם פרויקט">
+        <mat-error *ngIf="projectForm.get('name')?.invalid && projectForm.get('name')?.touched">
+          חובה להזין שם פרויקט
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>תיאור</mat-label>
+        <textarea matInput formControlName="description" placeholder="הזן תיאור קצר..." rows="3"></textarea>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="projectForm.invalid || isLoading">
+        <mat-icon *ngIf="isLoading" class="spinner"></mat-icon>
+        <span *ngIf="!isLoading">צור פרויקט</span>
+        <span *ngIf="isLoading">יוצר...</span>
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

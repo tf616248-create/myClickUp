@@ -1,0 +1,17 @@
+<mat-card class="create-team-container">
+  <mat-card-header>
+    <mat-card-title>יצירת קבוצה חדשה</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>שם הקבוצה</mat-label>
+        <input matInput [(ngModel)]="newTeamName" name="teamName" placeholder="הזן שם קבוצה">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="button" (click)="onCreateTeam()" [disabled]="!newTeamName.trim()">
+        צור קבוצה
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

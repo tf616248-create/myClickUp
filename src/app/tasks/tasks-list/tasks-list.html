@@ -1,0 +1,101 @@
+<div class="tasks-container">
+  <div class="tasks-header">
+    <h2>משימות</h2>
+    <button mat-raised-button color="primary" (click)="toggleCreateTask()">
+      <mat-icon>add</mat-icon>
+      צור משימה חדשה
+    </button>
+  </div>
+
+  <router-outlet></router-outlet>
+
+  <div class="tasks-list">
+    <ng-container *ngFor="let task of tasksService.tasks(); trackBy: trackTaskById">
+      <mat-card 
+        class="task-card" 
+        [id]="'task-' + task.id"
+        [class.task-highlight]="openedTaskId() === task.id"
+      >
+        <mat-card-header>
+          <mat-card-title>{{ task.title }}</mat-card-title>
+          <mat-card-subtitle>
+            <mat-chip [color]="getPriorityColor(task.priority)">
+              {{ getPriorityText(task.priority) }}
+            </mat-chip>
+          </mat-card-subtitle>
+        </mat-card-header>
+        
+        <ng-container *ngIf="task.description">
+          <mat-card-content>
+            <p>{{ task.description }}</p>
+          </mat-card-content>
+        </ng-container>
+        
+        <mat-card-actions align="end">
+          <button mat-stroked-button (click)="toggleComments(task.id!)">
+            <mat-icon>comment</mat-icon>
+            תגובות
+          </button>
+          <button mat-stroked-button color="primary" (click)="startEditTask(task)">
+            <mat-icon>edit</mat-icon>
+            ערוך
+          </button>
+          <button mat-stroked-button color="warn" (click)="deleteTask(task.id!)">
+            <mat-icon>delete</mat-icon>
+            מחק
+          </button>
+        </mat-card-actions>
+        
+        <ng-container *ngIf="editingTaskId === task.id">
+          <div class="edit-form">
+            <mat-card-content>
+              <form [formGroup]="editingTaskForm">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>כותרת</mat-label>
+                  <input matInput formControlName="title">
+                  <mat-error *ngIf="editingTaskForm.get('title')?.invalid && editingTaskForm.get('title')?.touched">
+                    כותרת היא שדה חובה
+                  </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>תיאור</mat-label>
+                  <textarea matInput formControlName="description"></textarea>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>עדיפות</mat-label>
+                  <mat-select formControlName="priority">
+                    <mat-option value="low">נמוכה</mat-option>
+                    <mat-option value="normal">רגילה</mat-option>
+                    <mat-option value="high">גבוהה</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </form>
+            </mat-card-content>
+            <mat-card-actions align="end">
+              <button mat-stroked-button (click)="cancelEdit()">ביטול</button>
+              <button mat-raised-button color="primary" (click)="saveEdit()" [disabled]="editingTaskForm.invalid">
+                עדכן משימה
+              </button>
+            </mat-card-actions>
+          </div>
+        </ng-container>
+        
+        <ng-container *ngIf="isCommentsOpen()(task.id!)">
+          <div class="comments-section">
+            <app-comments-list [taskId]="task.id!" />
+          </div>
+        </ng-container>
+      </mat-card>
+    </ng-container>
+    
+    <ng-container *ngIf="tasksService.tasks().length === 0">
+      <mat-card class="empty-state">
+        <mat-card-content>
+          <p>אין משימות זמינות כרגע.</p>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </div>
+</div>
