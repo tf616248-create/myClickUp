@@ -1,59 +1,48 @@
-# P
+# ✅ myClickUp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+## 💡 על הפרויקט
 
-## Development server
+פרויקט זה פותח כחלק מלימודי Full Stack ומדגים בניית צד לקוח לאפליקציית ניהול פרויקטים בהשראת ClickUp, עם חיבור ל-Backend קיים.
 
-To start a local development server, run:
+הפרויקט מדגים יישום של:
+- Angular Standalone Components
+- Authentication עם Guards ו-Interceptors
+- ניהול מצב עם Services
+- Routing מסודר עם הגנה על נתיבים
+- תקשורת עם Backend דרך HTTP Client
 
-```bash
-ng serve
-```
+## 🏗️ מבנה הפרויקט
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+הפרויקט בנוי לפי מבנה מודולרי:
 
-## Code scaffolding
+- **auth** — התחברות והרשמה
+- **projects** — ניהול פרויקטים
+- **tasks** — ניהול משימות
+- **teams** — ניהול צוותים
+- **comments** — מערכת תגובות
+- **services** — Services לכל entity
+- **core** — Auth Guard, Interceptor
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🚀 איך להריץ
 
-```bash
-ng generate component component-name
-```
+דרישות מקדימות: Node.js, Angular CLI
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+1. שכפל את הפרויקט
+2. הרץ `npm install`
+3. הרץ `ng serve`
+4. פתח בדפדפן: `http://localhost:4200`
 
-```bash
-ng generate --help
-```
+## 🔧 טכנולוגיות
 
-## Building
+- Angular
+- TypeScript
+- SCSS
+- HTTP Client
+- Angular Router
 
-To build the project run:
+## ✨ תכונות עיקריות
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **Auth Guard** — הגנה על נתיבים פרטיים
+- **HTTP Interceptor** — הוספת טוקן אוטומטית לכל בקשה
+- ניהול פרויקטים, משימות וצוותים
+- מערכת תגובות על משימות
